@@ -4,7 +4,7 @@
 
 using namespace std;
 int main() {
-    Present p("1234567890");
+    Present p("1234567890123456");
     string c = p.encrypt("12345678");
     cout << c << endl;
     string m = p.decrypt(c);
