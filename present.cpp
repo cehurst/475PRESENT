@@ -27,11 +27,22 @@ Present::Present(string key) {
 
 string Present::encrypt(string message) {
     uberzahl c = convertToNumber(message);
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 31; i++) {
 	c = c ^ keys[i];
-	// need s-box encryption and pLayer encryption
-    message = convertToString(c);
-    return message;
+	// first do sbox step
+	uberzahl c2;
+	for (int j = 0; j < 16; j++) {
+	    c2 = c2 + (uberzahl(sbox[(c >> (j * 4)) % 16]) << (j * 4));
+	}
+	// next do player step
+	uberzahl c3;
+	for (int j = 0; j < 64; j++) {
+	    c3 = c3 + (((c >> j) & 1) << pbox[j]);
+	}
+	c = c3;
+    }
+    c = c ^ keys[31];
+    return convertToString(c);
 }
 
 string Present::decrypt(string cipher) {
