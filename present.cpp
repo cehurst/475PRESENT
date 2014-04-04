@@ -26,6 +26,11 @@ Present::Present(string key) {
 }
 
 string Present::encrypt(string message) {
+    uberzahl c = convertToNumber(message);
+    for (int i = 0; i < 32; i++) {
+	c = c ^ keys[i];
+	// need s-box encryption and pLayer encryption
+    message = convertToString(c);
     return message;
 }
 
